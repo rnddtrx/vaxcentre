@@ -2,7 +2,7 @@ package be.ipam.vaxcentre.model;
 
 import java.util.List;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,9 +21,8 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdPerson")
 	private int idPerson;
-	private String Lastname;
-	private String Firstname;
-	@OneToMany(mappedBy="person")
+	private String lastname;
+	private String firstname;
+	@OneToMany(mappedBy="person",cascade=CascadeType.ALL)
 	List<Schedule> schedules;
-	
 }

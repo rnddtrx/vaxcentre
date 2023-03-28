@@ -2,7 +2,7 @@ package be.ipam.vaxcentre.model;
 
 import java.time.LocalDate;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,10 +22,10 @@ public class Schedule {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdSchedule")
 	private Long idSchedule;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "CentreId")
 	private Centre centre;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "PersonId")
 	private Person person; 
 	private LocalDate scheduleDate;

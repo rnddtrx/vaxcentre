@@ -53,7 +53,7 @@ public class PersonRestController {
 	//C
 	@PostMapping
 	public PersonDto postPerson(@RequestBody PersonDto personDto) {
-		System.out.println(personDto.toString());
+		//System.out.println(personDto.toString());
 		Person entity = convertToEntity(personDto);
 		System.out.print(entity.toString());
 		Person person = personService.addPerson(entity);
@@ -71,5 +71,16 @@ public class PersonRestController {
 	public PersonDto putPerson(@Valid @PathVariable("id") Long id,@RequestBody PersonDto personDto) {
 		Person person = convertToEntity(personDto);
 		return convertToDto(personService.updatePerson(person));
-	} 
+	}
+	
+	@PostMapping("/findByLastnameAndFirstname")
+	public List<PersonDto> findByLastnameAndFirstname(@RequestBody Person personToFind){
+		List<Person> personsFound = personService.findByLastnameAndFirstname(personToFind);
+		List<PersonDto> personsDtoFound = new ArrayList<PersonDto>();
+		personsFound.forEach(p->personsDtoFound.add(convertToDto(p)));
+		return personsDtoFound;
+	}
+	
+	
+	
 }
