@@ -15,5 +15,5 @@ public interface PersonService {
 	public void deletePersonById(Long id);
 	public Person updatePerson(Person person);
 	public List<Person> findByLastnameAndFirstname(Person person);
-	
+	public Person findRandomPerson();
 }

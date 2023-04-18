@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CentreDto {
-	private Long idCentre;
+	private long idCentre;
 	private String name;
 	@JsonBackReference
 	private List<ScheduleDto> schedules;

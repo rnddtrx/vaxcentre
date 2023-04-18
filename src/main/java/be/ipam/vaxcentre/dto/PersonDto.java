@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PersonDto {
-	private int idPerson;
+	private long idPerson;
 	private String Lastname;
 	private String Firstname;
 	private List<ScheduleDto> schedules;

@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 
 import be.ipam.vaxcentre.model.Person;
 import be.ipam.vaxcentre.model.Schedule;
+import be.ipam.vaxcentre.repository.PersonRepository;
 import be.ipam.vaxcentre.repository.ScheduleRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService{
 
-	@Autowired 
-	private ScheduleRepository scheduleRepo;
+	//@Autowired 
+	private final ScheduleRepository scheduleRepo;
 	
 	@Override
 	public Iterable<Schedule> findAllSchedules() {

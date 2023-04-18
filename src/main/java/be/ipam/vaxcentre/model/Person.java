@@ -21,7 +21,9 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "IdPerson")
 	private int idPerson;
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String lastname;
+	@Column(columnDefinition = "NVARCHAR(255)")
 	private String firstname;
 	@OneToMany(mappedBy="person",cascade=CascadeType.ALL)
 	List<Schedule> schedules;

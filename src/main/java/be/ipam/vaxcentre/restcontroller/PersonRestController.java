@@ -6,6 +6,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,20 +15,23 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import be.ipam.vaxcentre.dto.PersonDto;
 import be.ipam.vaxcentre.model.Person;
 import be.ipam.vaxcentre.service.PersonService;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("api/persons/")
 public class PersonRestController {
-	@Autowired 
-	PersonService personService;
-	@Autowired
-	ModelMapper mapper;
+	//@Autowired 
+	private final PersonService personService;
+	//@Autowired
+	private final ModelMapper mapper;
 	
 	private PersonDto convertToDto(Person entity) {
 		return mapper.map(entity, PersonDto.class);
@@ -69,6 +73,13 @@ public class PersonRestController {
 	//U
 	@PutMapping("/{id}")
 	public PersonDto putPerson(@Valid @PathVariable("id") Long id,@RequestBody PersonDto personDto) {
+		
+		if(!id.equals(personDto.getIdPerson()))throw new
+		ResponseStatusException(
+		HttpStatus.BAD_REQUEST,
+		"id does not match"
+		);
+		
 		Person person = convertToEntity(personDto);
 		return convertToDto(personService.updatePerson(person));
 	}

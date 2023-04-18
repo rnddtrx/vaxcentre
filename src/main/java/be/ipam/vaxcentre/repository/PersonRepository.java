@@ -16,4 +16,10 @@ public interface PersonRepository extends JpaRepository<Person, Long>{
 	 
 	@Query("SELECT p FROM Person p WHERE p.lastname LIKE concat('%', :lastname, '%') AND LOWER(p.firstname) LIKE concat('%', LOWER(:firstname), '%')")
 	List<Person> findByNameAndFirstName(String lastname,String firstname);
+	
+	
+	@Query(value = "SELECT TOP 1 * FROM Persons ORDER BY NEWID()", nativeQuery = true)
+	Person findRandomPerson();
+	
 }
+

@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import be.ipam.vaxcentre.model.Person;
+import be.ipam.vaxcentre.repository.CentreRepository;
 import be.ipam.vaxcentre.repository.PersonRepository;
 import jakarta.websocket.Session;
+import lombok.AllArgsConstructor;
 
 @Service
-@Transactional
+@AllArgsConstructor
 public class PersonServiceImpl implements PersonService{
-	@Autowired 
-	private PersonRepository personRepo;
+	//@Autowired 
+	private final PersonRepository personRepo;
 
 	@Override
 	public Iterable<Person> findAllPersons() {
@@ -51,6 +53,11 @@ public class PersonServiceImpl implements PersonService{
 	@Override
 	public List<Person> findByLastnameAndFirstname(Person person) {
 		return personRepo.findByNameAndFirstName(person.getLastname(),person.getFirstname());
+	}
+
+	@Override
+	public Person findRandomPerson() {
+		return personRepo.findRandomPerson();
 	}
 	
 	

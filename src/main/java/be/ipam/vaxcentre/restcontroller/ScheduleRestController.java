@@ -20,15 +20,16 @@ import be.ipam.vaxcentre.dto.ScheduleDto;
 import be.ipam.vaxcentre.model.Schedule;
 import be.ipam.vaxcentre.service.ScheduleService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/schedules")
 public class ScheduleRestController {
-	@Autowired 
-	ScheduleService scheduleService;
-	
-	@Autowired
-	ModelMapper mapper;
+	//@Autowired 
+	private final ScheduleService scheduleService;
+	//@Autowired
+	private final ModelMapper mapper;
 	
 	private ScheduleDto convertToDto(Schedule entity) {
 		return mapper.map(entity, ScheduleDto.class);
@@ -72,7 +73,7 @@ public class ScheduleRestController {
 	
 	//U
 	@PutMapping("/{id}")
-	public ScheduleDto putSchedule(@Valid @PathVariable("id") Long id,@RequestBody ScheduleDto scheduleDto) {
+	public ScheduleDto putSchedule(@Valid @PathVariable("id") long id,@RequestBody ScheduleDto scheduleDto) {
 		Schedule schedule = convertToEntity(scheduleDto);
 		return convertToDto(scheduleService.updateSchedule(schedule));
 	}

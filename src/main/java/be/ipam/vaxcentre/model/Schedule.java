@@ -1,6 +1,7 @@
 package be.ipam.vaxcentre.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -11,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -28,5 +28,5 @@ public class Schedule {
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name = "PersonId")
 	private Person person; 
-	private LocalDate scheduleDate;
+	private LocalDateTime scheduleDate;
 }

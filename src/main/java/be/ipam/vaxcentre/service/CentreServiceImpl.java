@@ -9,11 +9,14 @@ import org.springframework.stereotype.Service;
 import be.ipam.vaxcentre.model.Centre;
 import be.ipam.vaxcentre.model.Person;
 import be.ipam.vaxcentre.repository.CentreRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class CentreServiceImpl implements CentreService{
 
-	@Autowired CentreRepository centreRep;
+	//@Autowired // Replaced by @AllArgsConstructor 
+	private final CentreRepository centreRep;
 	
 	@Override
 	public List<Centre> getAllCentre() {
