@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +28,24 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("api/persons/")
+@RequestMapping("api/persons")
 public class PersonRestController {
 	//@Autowired 
 	private final PersonService personService;
 	//@Autowired
 	private final ModelMapper mapper;
 	
+	private final BCryptPasswordEncoder passwordEncoder;
+	
+	
 	private PersonDto convertToDto(Person entity) {
 		return mapper.map(entity, PersonDto.class);
 	};
+	
 	private Person convertToEntity(PersonDto dto) {
-		return mapper.map(dto, Person.class);
+		Person p = mapper.map(dto, Person.class);
+		p.setHashedPassword(passwordEncoder.encode(p.getHashedPassword()));
+		return p;
 	};
 	
 	//R All
@@ -48,6 +56,14 @@ public class PersonRestController {
 		return persons;
 	}
 	
+	@GetMapping("/{page}/{size}")
+	public List<PersonDto> getPersonsWithPaging(@PathVariable("page") int page,@PathVariable("size") int size) {
+		List<PersonDto> persons = new ArrayList<PersonDto>();
+		personService.findAllPersons(page,size).forEach(p->{persons.add(convertToDto(p));});
+		return persons;
+	}
+	
+	
 	//R
 	@GetMapping("/{id}")
 	public PersonDto getPersonById(@PathVariable("id") Long id) {
@@ -55,7 +71,7 @@ public class PersonRestController {
 	}
 	
 	//C
-	@PostMapping
+    @PostMapping("/register")
 	public PersonDto postPerson(@RequestBody PersonDto personDto) {
 		//System.out.println(personDto.toString());
 		Person entity = convertToEntity(personDto);
@@ -91,7 +107,5 @@ public class PersonRestController {
 		personsFound.forEach(p->personsDtoFound.add(convertToDto(p)));
 		return personsDtoFound;
 	}
-	
-	
 	
 }

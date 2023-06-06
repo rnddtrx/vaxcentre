@@ -17,6 +17,8 @@ public class PersonDto {
 	private String Lastname;
 	private String Firstname;
 	private List<ScheduleDto> schedules;
+	private String login;
+	private String hashedPassword;
 	
 
 }

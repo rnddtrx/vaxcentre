@@ -3,7 +3,12 @@ package be.ipam.vaxcentre.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,6 +63,21 @@ public class PersonServiceImpl implements PersonService{
 	@Override
 	public Person findRandomPerson() {
 		return personRepo.findRandomPerson();
+	}
+
+	@Override
+	public List<Person> findAllPersons(int page, int size) {
+		Pageable pageable = PageRequest.of(page-1, size, Sort.by("lastname").ascending());
+		Page<Person> persons = personRepo.findAll(pageable);
+		return persons.getContent();
+	}
+
+	@Override
+	@Transactional
+	public Optional<Person> findByLogin(String login) {
+		Person per= personRepo.findByLogin(login);
+		Hibernate.initialize(per.getAppRoles());
+		return Optional.of(per);
 	}
 	
 	
